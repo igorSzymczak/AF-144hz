@@ -328,7 +328,7 @@ package core.hud.components.chat
                g.setFps(int(parseInt(output[1])));
                break;
             case "dt":
-               MessageLog.write("DeltaTime: " + g.dt);
+               MessageLog.write("DeltaTime: " + Game.dt);
                break;
             case "stats":
                g.traceDisplayObjectCounts();

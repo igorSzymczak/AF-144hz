@@ -96,11 +96,11 @@ package core.scene
    
    public class Game extends SceneBase
    {
-      public var dt: Number = 7;
+      public static var dt: Number = 7;
 
-      public var bdt: Number = 4.714285714285714;
+      public static var bdt: Number = 4.714285714285714;
 
-      public var fps: Number = 143;
+      public static var fps: Number = 143;
 
       public static var instance:Game;
       
@@ -1595,17 +1595,17 @@ package core.scene
 
       public function setDT(newDt: Number) : void
       {
-         this.dt = newDt * 1000;
-         this.fps = 1 / dt;
-         this.bdt = 33 / dt;
+         dt = newDt * 1000;
+         fps = 1 / dt;
+         bdt = 33 / dt;
          RymdenRunt.s.nativeStage.frameRate = fps;
       }
 
       public function setFps(newFps: Number) : void
       {
-         this.fps = newFps;
-         this.dt = 1 / fps * 1000;
-         this.bdt = 33 / dt
+         fps = newFps;
+         dt = 1 / fps * 1000;
+         bdt = 33 / dt
          RymdenRunt.s.nativeStage.frameRate = fps;
       }
 
