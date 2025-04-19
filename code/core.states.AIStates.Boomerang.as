@@ -13,6 +13,8 @@ package core.states.AIStates
    {
       private static var DT:Number = 7;
 
+      private static var bDT:Number = 33 / DT;
+
       private var g:Game;
       
       private var p:Projectile;

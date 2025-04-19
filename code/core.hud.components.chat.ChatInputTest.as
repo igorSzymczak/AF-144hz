@@ -1,5 +1,6 @@
 package core.hud.components.chat
 {
+   import Clock.TimeDelta;
    import core.player.Player;
    import core.player.PlayerManager;
    import core.scene.Game;
@@ -321,10 +322,13 @@ package core.hud.components.chat
                sendSettingMsg(output);
                break;
             case "lowerfps":
-               RymdenRunt.s.nativeStage.frameRate = 3;
+               g.setFps(3);
                break;
             case "fps":
-               RymdenRunt.s.nativeStage.frameRate = int(parseInt(output[1]));
+               g.setFps(int(parseInt(output[1])));
+               break;
+            case "dt":
+               MessageLog.write("DeltaTime: " + g.dt);
                break;
             case "stats":
                g.traceDisplayObjectCounts();
