@@ -438,8 +438,8 @@ package core.boss
          }
          param1.speed.x -= 0.009 * param1.speed.x;
          param1.speed.y -= 0.009 * param1.speed.y;
-         param1.pos.x += param1.speed.x * _loc9_ / 1000;
-         param1.pos.y += param1.speed.y * _loc9_ / 1000;
+         param1.pos.x += param1.speed.x * _loc9_ / 1000 / Game.bdt;
+         param1.pos.y += param1.speed.y * _loc9_ / 1000 / Game.bdt;
          param1.time += _loc9_;
          if(holonomic || rotationForced)
          {
