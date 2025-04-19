@@ -19,8 +19,6 @@ package core.ship
    
    public class ShipFactory
    {
-      public static var DT:Number = 7;
-
       public function ShipFactory()
       {
          super();
@@ -272,7 +270,7 @@ package core.ship
                   param2.boostBonus = _loc7_.boost;
                   param2.boostCD = _loc7_.cooldown * 1000;
                   param2.boostDuration = _loc7_.duration * 1000;
-                  param2.totalTicksOfBoost = param2.boostDuration / DT;
+                  param2.totalTicksOfBoost = param2.boostDuration / Game.dt;
                   param2.ticksOfBoost = 0;
                }
             }
@@ -323,7 +321,7 @@ package core.ship
                   param2.dmgBoostDuration = _loc10_.duration * 1000;
                   param2.dmgBoostCost = 0.01 * Number(_loc10_.boostCost);
                   param2.dmgBoostBonus = 0.01 * Number(_loc10_.boost);
-                  param2.totalTicksOfBoost = param2.boostDuration / DT;
+                  param2.totalTicksOfBoost = param2.boostDuration / Game.dt;
                   param2.ticksOfBoost = 0;
                }
             }

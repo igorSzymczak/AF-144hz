@@ -21,8 +21,6 @@ package core.projectile
    
    public class ProjectileManager
    {
-      public var DT:Number = 7;
-
       public var inactiveProjectiles:Vector.<Projectile>;
       
       public var projectiles:Vector.<Projectile>;
@@ -427,7 +425,7 @@ package core.projectile
                }
                _loc2_.convergenceCounter = 0;
                _loc2_.course = _loc4_;
-               _loc2_.convergenceTime = 500 / DT;
+               _loc2_.convergenceTime = 500 / Game.dt;
             }
             else
             {

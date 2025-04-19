@@ -11,8 +11,6 @@ package core.states.AIStates
    
    public class MissileStuck implements IState
    {
-      public static var DT:Number = 7;
-
       private var m:Game;
       
       private var p:Projectile;
@@ -64,7 +62,7 @@ package core.states.AIStates
          pos.y = stuckUnit.pos.y + Math.sin(_loc3_) * stuckOffset.x + Math.cos(_loc3_) * stuckOffset.y;
          param2.error = new Point(_loc4_.x - pos.x,_loc4_.y - pos.y);
          param2.convergenceCounter = 0;
-         param2.convergenceTime = 1000 / DT;
+         param2.convergenceTime = 1000 / Game.dt;
          if(param2.isHeal || param2.unit.factions.length > 0)
          {
             this.isEnemy = false;
@@ -102,7 +100,7 @@ package core.states.AIStates
          p.course.rotation = startAngle + _loc2_;
          pos.x = stuckUnit.pos.x + Math.cos(_loc2_) * stuckOffset.x - Math.sin(_loc2_) * stuckOffset.y;
          pos.y = stuckUnit.pos.y + Math.sin(_loc2_) * stuckOffset.x + Math.cos(_loc2_) * stuckOffset.y;
-         _loc1_ = DT;
+         _loc1_ = Game.dt;
          _loc3_ = (p.convergenceTime - p.convergenceCounter) / p.convergenceTime;
          if(_loc3_ <= 0)
          {

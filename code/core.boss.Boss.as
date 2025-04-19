@@ -19,8 +19,6 @@ package core.boss
    
    public class Boss extends GameObject
    {
-      public static var DT:Number = 7;
-
       public var alive:Boolean;
       
       public var isHostile:Boolean;
@@ -276,7 +274,7 @@ package core.boss
          }
          else
          {
-            nextDistanceCalculation -= DT;
+            nextDistanceCalculation -= Game.dt;
          }
          stateMachine.update();
          var _loc4_:int = 0;
@@ -364,7 +362,7 @@ package core.boss
          var _loc6_:Number = NaN;
          var _loc8_:Number = NaN;
          var _loc7_:Number = NaN;
-         var _loc9_:int = DT;
+         var _loc9_:int = Game.dt;
          aiRemoveError(param1);
          oldAngle = course.rotation;
          if(angleTargetPos != null)

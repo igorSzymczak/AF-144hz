@@ -27,7 +27,7 @@ package core.states.gameStates
             _loc2_++;
          }
          runLore(0,_loc1_);
-         RymdenRunt.s.nativeStage.frameRate = 144;
+         RymdenRunt.s.nativeStage.frameRate = Game.fps;
          loadCompleted();
       }
       

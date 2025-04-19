@@ -20,11 +20,7 @@ package core.projectile
    
    public class Projectile extends GameObject
    {
-      private static const DT:Number = 7;
-      
-      private static const bDT:Number = 33 / 7;
-      
-      private static const DTxDT_HALF:Number = Math.pow(DT,2) * 0.5;
+      private static const DTxDT_HALF:Number = Math.pow(Game.dt,2) * 0.5;
       
       public var determinedColor:Number = NaN;
       
@@ -182,7 +178,7 @@ package core.projectile
          stateMachine.update();
          if(weapon.maxProjectiles == 0)
          {
-            ttl -= DT;
+            ttl -= Game.dt;
             if(ttl <= 0 && !aiAlwaysExplode)
             {
                destroy(false);
@@ -204,12 +200,7 @@ package core.projectile
             }
             _pos.x = course.pos.x;
             _pos.y = course.pos.y;
-
-            // var dX:Number = course.x - startCourse.x; 
-            // var dY:Number = course.y - startCourse.y;
- 
-            // _pos.x = startCourse.pos.x + (dX * bDT);
-            // _pos.y = startCourse.pos.y + (dy * bDT);
+            
             if(!randomAngle)
             {
                _rotation = course.rotation;
@@ -282,7 +273,7 @@ package core.projectile
          {
             followingRibbonSegment.setTo2(_pos.x,_pos.y,ribbonThickness,_loc2_);
          }
-         ribbonTrail.advanceTime(DT);
+         ribbonTrail.advanceTime(Game.dt);
       }
       
       public function fastforward() : void
@@ -292,7 +283,7 @@ package core.projectile
             while(course.time < g.time && alive)
             {
                stateMachine.update();
-               ttl -= DT;
+               ttl -= Game.dt;
                if(alive)
                {
                   _pos.x = course.pos.x;
@@ -339,9 +330,9 @@ package core.projectile
             param1.speed.x -= weapon.friction * param1.speed.x + 0.009 * param1.speed.x;
             param1.speed.y -= weapon.friction * param1.speed.y + 0.009 * param1.speed.y;
          }
-         param1.pos.x += 0.001 * param1.speed.x * DT;
-         param1.pos.y += 0.001 * param1.speed.y * DT;
-         param1.time += DT;
+         param1.pos.x += 0.001 * param1.speed.x * Game.dt;
+         param1.pos.y += 0.001 * param1.speed.y * Game.dt;
+         param1.time += Game.dt;
       }
       
       public function explode(param1:Boolean = false, param2:Unit = null) : void

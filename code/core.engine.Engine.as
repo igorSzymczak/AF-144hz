@@ -12,8 +12,6 @@ package core.engine
    
    public class Engine extends GameObject
    {
-      public var DT:Number = 7;
-
       public var thrustEmitters:Vector.<Emitter>;
       
       public var idleThrustEmitters:Vector.<Emitter>;
@@ -107,7 +105,7 @@ package core.engine
                   _loc2_ = ship.rotation + 3.141592653589793;
                }
                followingRibbonSegment.setTo2(_pos.x,_pos.y,ribbonThickness,_loc2_,1);
-               ribbonTrail.advanceTime(DT);
+               ribbonTrail.advanceTime(Game.dt);
             }
          }
       }
@@ -366,7 +364,7 @@ package core.engine
          {
             followingRibbonSegment.setTo2(ship.pos.x,ship.pos.y,2,0,1);
             ribbonTrail.resetAllTo(ship.pos.x,ship.pos.y,ship.pos.x,ship.pos.y,0.85);
-            ribbonTrail.advanceTime(DT);
+            ribbonTrail.advanceTime(Game.dt);
          }
       }
       

@@ -11,10 +11,6 @@ package core.states.AIStates
    
    public class Boomerang extends ProjectileBullet implements IState
    {
-      private static var DT:Number = 7;
-
-      private static var bDT:Number = 33 / DT;
-
       private var g:Game;
       
       private var p:Projectile;
@@ -67,7 +63,7 @@ package core.states.AIStates
          {
             _loc5_.target = engine;
          }
-         var _loc1_:Number = DT;
+         var _loc1_:Number = Game.dt;
          var _loc7_:int = (p.convergenceTime - p.convergenceCounter) / p.convergenceTime;
          if(_loc7_ <= 0)
          {

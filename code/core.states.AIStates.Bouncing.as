@@ -10,8 +10,6 @@ package core.states.AIStates
    
    public class Bouncing implements IState
    {
-      private static var DT:Number = 7;
-
       protected var m:Game;
       
       protected var p:Projectile;
@@ -101,7 +99,7 @@ package core.states.AIStates
             p.target = null;
             p.error = null;
          }
-         var _loc2_:Number = DT;
+         var _loc2_:Number = Game.dt;
          var _loc1_:int = (p.convergenceTime - p.convergenceCounter) / p.convergenceTime;
          if(_loc1_ <= 0)
          {

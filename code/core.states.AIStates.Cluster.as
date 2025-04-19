@@ -8,10 +8,6 @@ package core.states.AIStates
    
    public class Cluster extends ProjectileBullet implements IState
    {
-      private static var DT:Number = 7;
-
-      private static var bDT:Number = 33 / DT;
-
       protected var newProjectile:Projectile;
       
       private var clusterAngle:Number;
@@ -33,7 +29,7 @@ package core.states.AIStates
          var _loc4_:int = 0;
          var _loc2_:Projectile = null;
          var _loc5_:Number = NaN;
-         var _loc1_:Number = DT;
+         var _loc1_:Number = Game.dt;
          if(p.ttl - 1 < _loc1_ && p.clusterNrOfSplits > 0)
          {
             _loc3_ = clusterAngle;
@@ -46,8 +42,8 @@ package core.states.AIStates
                }
             }
             _loc4_ = -p.clusterNrOfProjectiles;
-            p.course.speed.x *= bDT;
-            p.course.speed.y *= bDT;
+            p.course.speed.x *= Game.bdt;
+            p.course.speed.y *= Game.bdt;
             while(_loc4_ < p.clusterNrOfProjectiles)
             {
                _loc2_ = ProjectileFactory.create(p.clusterProjectile,m,p.unit,p.weapon);

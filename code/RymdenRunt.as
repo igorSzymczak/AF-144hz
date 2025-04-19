@@ -85,7 +85,7 @@ package
          stage.align = "TL";
          stage.scaleMode = "noScale";
          stage.quality = "low";
-         stage.frameRate = 144;
+         stage.frameRate = Game.fps;
          s = new Starling(Login,stage,null,null,"auto","auto");
          s.start();
          s.skipUnchangedFrames = true;

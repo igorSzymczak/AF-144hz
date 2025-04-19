@@ -11,8 +11,6 @@ package core.ship
    
    public class Ship extends Unit
    {
-      public static var DT:Number = 7;
-
       public var engine:Engine;
       
       public var weapons:Vector.<Weapon>;
@@ -74,7 +72,7 @@ package core.ship
          }
          if(lastDmgText != null)
          {
-            _loc1_ = DT;
+            _loc1_ = Game.dt;
             lastDmgText.x += _loc2_.speed.x * _loc1_ / 1000;
             lastDmgText.y += _loc2_.speed.y * _loc1_ / 1000;
             if(lastDmgTime < g.time - 1000)
@@ -85,7 +83,7 @@ package core.ship
          }
          if(lastHealText != null)
          {
-            _loc1_ = DT;
+            _loc1_ = Game.dt;
             lastHealText.x += _loc2_.speed.x * _loc1_ / 1000;
             lastHealText.y += _loc2_.speed.y * _loc1_ / 1000;
             if(lastHealTime < g.time - 1000)

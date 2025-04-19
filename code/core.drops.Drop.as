@@ -15,10 +15,6 @@ package core.drops
    
    public class Drop extends GameObject
    {
-      public static var DT:Number = 7;
-
-      public static var bDT:Number = 33 / DT;
-
       public var key:String;
       
       public var collisionRadius:Number;
@@ -59,7 +55,7 @@ package core.drops
          canvas = param1.canvasDrops;
          beamLine = param1.beamLinePool.getLine();
          beamLine.init(1,3,3,11184895,0.6,3,6724095);
-         randAngleSpeed = Math.random() / 12 / bDT;
+         randAngleSpeed = Math.random() / 12 / Game.bdt;
       }
       
       public function pickup(param1:Player, param2:Message, param3:int) : Boolean
@@ -94,10 +90,10 @@ package core.drops
       override public function update() : void
       {
          tractorBeamUpdate();
-         pos.x += speed.x / bDT;
-         pos.y += speed.y / bDT;
-         speed.x -= 0.1 * speed.x / bDT;
-         speed.y -= 0.1 * speed.y / bDT;
+         pos.x += speed.x / Game.bdt;
+         pos.y += speed.y / Game.bdt;
+         speed.x -= 0.1 * speed.x / Game.bdt;
+         speed.y -= 0.1 * speed.y / Game.bdt;
          if(isAddedToCanvas && !fadeTween && expireTime - g.time < 10000 && expireTime != 0)
          {
             fadeTween = TweenMax.fromTo(this,0.4,{"alpha":1},{
@@ -117,7 +113,7 @@ package core.drops
          }
          else
          {
-            nextDistanceCalculation -= DT;
+            nextDistanceCalculation -= Game.dt;
          }
       }
       
@@ -192,11 +188,11 @@ package core.drops
          var _loc6_:Number = Math.sqrt(_loc3_ * _loc3_ + _loc7_ * _loc7_);
          var _loc9_:Number = _loc3_ / _loc6_;
          var _loc8_:Number = _loc7_ / _loc6_;
-         var _loc1_:Number = DT;
+         var _loc1_:Number = Game.dt;
          var _loc2_:Number = _loc5_.speed.length * _loc1_ / 1000;
          var _loc4_:Number = _loc2_ + 5;
-         speed.x = _loc9_ * _loc4_ * bDT;
-         speed.y = _loc8_ * _loc4_ * bDT;
+         speed.x = _loc9_ * _loc4_ * Game.bdt;
+         speed.y = _loc8_ * _loc4_ * Game.bdt;
       }
       
       public function expire() : void

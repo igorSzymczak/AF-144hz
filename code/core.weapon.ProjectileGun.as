@@ -10,8 +10,6 @@ package core.weapon
    
    public class ProjectileGun extends Weapon
    {
-      public static var DT:Number = 7;
-
       public function ProjectileGun(param1:Game)
       {
          super(param1);
@@ -40,7 +38,7 @@ package core.weapon
                            _loc1_.startChargeUpEffect();
                         }
                      }
-                     chargeUpTime += DT;
+                     chargeUpTime += Game.dt;
                      if(_loc1_.player.isMe)
                      {
                         if(chargeUpTime < chargeUpTimeMax)
@@ -193,7 +191,7 @@ package core.weapon
          _loc12_.error = new Point(_loc12_.course.pos.x - param3.pos.x,_loc12_.course.pos.y - param3.pos.y);
          _loc12_.convergenceCounter = 0;
          _loc12_.course = param3;
-         _loc12_.convergenceTime = 1000 / DT;
+         _loc12_.convergenceTime = 1000 / Game.dt;
          _loc12_.collisionRadius = 0;
          _loc12_.id = param1;
          g.projectileManager.activateProjectile(_loc12_);

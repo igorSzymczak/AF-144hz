@@ -24,8 +24,6 @@ package core.ship
    
    public class PlayerShip extends Ship
    {
-      public static var DT:Number = 7;
-
       public var player:Player;
       
       public var weaponIsChanging:Boolean;
@@ -197,7 +195,7 @@ package core.ship
                   g.hud.healthAndShield.update();
                }
             }
-            shieldRegenCounter += DT;
+            shieldRegenCounter += Game.dt;
          }
       }
       
@@ -218,7 +216,7 @@ package core.ship
                   g.hud.healthAndShield.update();
                }
             }
-            hpRegenCounter += DT;
+            hpRegenCounter += Game.dt;
          }
       }
       
@@ -859,7 +857,7 @@ package core.ship
          Starling.juggler.remove(_mc);
          var _loc1_:Vector.<Texture> = TextureLocator.getService().getTexturesMainByTextureName(imgObj.textureName);
          swapFrames(_mc,_loc1_);
-         _mc.fps = DT / imgObj.animationDelay;
+         _mc.fps = Game.dt / imgObj.animationDelay;
          _mc.readjustSize();
          Starling.juggler.add(_mc);
          _mc.pivotX = _mc.texture.width / 2;

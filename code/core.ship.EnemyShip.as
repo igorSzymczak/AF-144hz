@@ -15,8 +15,6 @@ package core.ship
    
    public class EnemyShip extends Ship
    {
-      public static const DT:Number = 7;
-
       public static const RARE_TYPE_NORMAL:int = 0;
       
       public static const RARE_TYPE_DEFENDER:int = 1;
@@ -359,13 +357,13 @@ package core.ship
       public function calculateOrbitSpeed() : Point
       {
          var _loc1_:Number = g.time;
-         var _loc4_:Number = orbitAngle + angleVelocity * DT / 1000 * (_loc1_ - orbitStartTime);
+         var _loc4_:Number = orbitAngle + angleVelocity * Game.dt / 1000 * (_loc1_ - orbitStartTime);
          var _loc5_:Number = orbitRadius * ellipseFactor * Math.cos(_loc4_);
          var _loc3_:Number = orbitRadius * Math.sin(_loc4_);
-         var _loc2_:Number = orbitAngle + angleVelocity * DT / 1000 * (_loc1_ - DT - orbitStartTime);
+         var _loc2_:Number = orbitAngle + angleVelocity * Game.dt / 1000 * (_loc1_ - Game.dt - orbitStartTime);
          _loc5_ -= orbitRadius * ellipseFactor * Math.cos(_loc2_);
          _loc3_ -= orbitRadius * Math.sin(_loc2_);
-         return new Point((_loc5_ * Math.cos(ellipseAlpha) - _loc3_ * Math.sin(ellipseAlpha)) * 1000 / DT,(_loc5_ * Math.sin(ellipseAlpha) + _loc3_ * Math.cos(ellipseAlpha)) * 1000 / DT);
+         return new Point((_loc5_ * Math.cos(ellipseAlpha) - _loc3_ * Math.sin(ellipseAlpha)) * 1000 / Game.dt,(_loc5_ * Math.sin(ellipseAlpha) + _loc3_ * Math.cos(ellipseAlpha)) * 1000 / Game.dt);
       }
       
       override public function reset() : void

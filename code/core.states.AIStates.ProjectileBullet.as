@@ -10,8 +10,6 @@ package core.states.AIStates
    
    public class ProjectileBullet implements IState
    {
-      public static var DT:Number = 7;
-
       protected var m:Game;
       
       protected var p:Projectile;
@@ -93,7 +91,7 @@ package core.states.AIStates
          var _loc16_:Number = NaN;
          var _loc21_:* = undefined;
          var _loc9_:Boolean = false;
-         var _loc2_:Number = DT;
+         var _loc2_:Number = Game.dt;
          var _loc1_:int = (p.convergenceTime - p.convergenceCounter) / p.convergenceTime;
          if(_loc1_ <= 0)
          {

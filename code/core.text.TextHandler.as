@@ -5,8 +5,6 @@ package core.text
    
    public class TextHandler
    {
-      public static var DT:Number = 7;
-
       public var texts:Vector.<TextParticle>;
       
       private var inactiveTexts:Vector.<TextParticle>;
@@ -38,8 +36,8 @@ package core.text
             else
             {
                _loc1_.update();
-               _loc1_.x += _loc1_.speed.x * DT / 1000;
-               _loc1_.y += _loc1_.speed.y * DT / 1000;
+               _loc1_.x += _loc1_.speed.x * Game.dt / 1000;
+               _loc1_.y += _loc1_.speed.y * Game.dt / 1000;
                _loc4_ = _loc1_.ttl / _loc1_.maxTtl;
                if(_loc4_ <= 0.5)
                {

@@ -9,8 +9,6 @@ package movement
    
    public class CommandManager
    {
-      private static var DT:Number = 7;
-
       public var commands:Vector.<Command>;
       
       private var sendBuffer:Vector.<Command>;
@@ -54,7 +52,7 @@ package movement
          var _loc5_:Command;
          (_loc5_ = new Command()).type = param1;
          _loc5_.active = param2;
-         while(_loc4_.time < g.time - 2 * DT)
+         while(_loc4_.time < g.time - 2 * Game.dt)
          {
             _loc3_.convergerUpdateHeading(_loc4_);
          }

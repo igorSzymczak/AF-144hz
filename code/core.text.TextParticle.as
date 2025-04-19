@@ -7,8 +7,6 @@ package core.text
    
    public class TextParticle extends TextField
    {
-      public static var DT:Number = 7;
-
       public var id:int;
       
       public var alive:Boolean;
@@ -38,7 +36,7 @@ package core.text
       
       public function update() : void
       {
-         ttl -=DT;
+         ttl -=Game.dt;
          if(ttl < 0)
          {
             alive = false;

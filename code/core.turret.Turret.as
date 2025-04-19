@@ -11,8 +11,6 @@ package core.turret
    
    public class Turret extends Unit
    {
-      public static var DT:Number = 7;
-
       public var weapon:Weapon;
       
       public var aimSkill:Number;
@@ -62,7 +60,7 @@ package core.turret
          {
             lastDmgText.x = _pos.x;
             lastDmgText.y = _pos.y - 20 + lastDmgTextOffset;
-            lastDmgTextOffset += lastDmgText.speed.y * DT / 1000;
+            lastDmgTextOffset += lastDmgText.speed.y * Game.dt / 1000;
             if(lastDmgTime < g.time - 1000)
             {
                lastDmgTextOffset = 0;
@@ -73,7 +71,7 @@ package core.turret
          {
             lastHealText.x = _pos.x;
             lastHealText.y = _pos.y - 5 + lastHealTextOffset;
-            lastHealTextOffset += lastHealText.speed.y * DT / 1000;
+            lastHealTextOffset += lastHealText.speed.y * Game.dt / 1000;
             if(lastHealTime < g.time - 1000)
             {
                lastHealTextOffset = 0;
@@ -89,7 +87,7 @@ package core.turret
          var _loc4_:Number = NaN;
          var _loc6_:Number = NaN;
          var _loc7_:Number = NaN;
-         var _loc1_:int = DT;
+         var _loc1_:int = Game.dt;
          var _loc5_:Number = rotationSpeed * _loc1_ / 1000;
          var _loc2_:Number = parentObj.rotation;
          if(aimArc == 0)

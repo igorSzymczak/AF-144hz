@@ -9,7 +9,6 @@ package core.boss
    
    public class BossComponent extends Unit
    {
-      public static var DT:Number = 7;
 
       public var offset:Point;
       
@@ -65,7 +64,7 @@ package core.boss
          {
             imageRotationSpeedCurrent -= 0.05 * imageRotationSpeed;
          }
-         currentAngleOffset += imageRotationSpeedCurrent * DT / 1000;
+         currentAngleOffset += imageRotationSpeedCurrent * Game.dt / 1000;
          _rotation = parentObj.rotation + currentAngleOffset + imageAngle;
          effectTarget.rotation = _rotation;
          effectTarget.x = effectX * Math.cos(_rotation) - effectY * Math.sin(_rotation) + _pos.x;

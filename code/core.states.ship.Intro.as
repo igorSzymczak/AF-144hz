@@ -9,8 +9,6 @@ package core.states.ship
    
    public class Intro implements IState
    {
-      private static var DT:Number = 7;
-
       private var ship:PlayerShip;
       
       private var sm:StateMachine;
@@ -51,7 +49,7 @@ package core.states.ship
             if(ship.x >= -500)
             {
                _loc1_ = startX - ship.x;
-               ship.x += _loc1_ / DT;
+               ship.x += _loc1_ / Game.dt;
                if(hyperDriveEngaged)
                {
                   for each(var _loc2_ in warpJumpEffect)

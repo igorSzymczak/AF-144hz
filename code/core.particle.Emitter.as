@@ -10,7 +10,6 @@ package core.particle
    
    public class Emitter
    {
-      public static var DT:Number = 7;
       public static var POOL_SIZE_MIN:int = 5;
       
       public static var POOL_SIZE_MAX:int = 100;
@@ -307,7 +306,7 @@ package core.particle
          {
             return;
          }
-         var _loc1_:int = DT;
+         var _loc1_:int = Game.dt;
          nextDistanceCalculation -= _loc1_;
          if(nextDistanceCalculation <= 0)
          {
@@ -341,7 +340,7 @@ package core.particle
          }
          if(isEmitting)
          {
-            timeElapsed += DT;
+            timeElapsed += Game.dt;
          }
          if(timeElapsed >= _duration + delay)
          {
@@ -363,7 +362,7 @@ package core.particle
          var _loc4_:int = 0;
          var _loc5_:int = 0;
          var _loc2_:int = 0;
-         var _loc1_:int = DT;
+         var _loc1_:int = Game.dt;
          if(!constantEmitter || steadyStream)
          {
             emittAccum += ppms * _loc1_;
@@ -417,7 +416,7 @@ package core.particle
          var _loc10_:Number = NaN;
          var _loc5_:Number = NaN;
          collectiveMeshBatch.clear();
-         var _loc1_:int = DT;
+         var _loc1_:int = Game.dt;
          var _loc7_:Number = _loc1_ * 0.001;
          var _loc3_:int = int(particles.length);
          _loc9_ = _loc3_ - 1;

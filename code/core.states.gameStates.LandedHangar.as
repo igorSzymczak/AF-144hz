@@ -15,7 +15,7 @@ package core.states.gameStates
       {
          super.enter();
          addChild(new Hangar(g,body));
-         RymdenRunt.s.nativeStage.frameRate = 144;
+         RymdenRunt.s.nativeStage.frameRate = Game.fps;
          loadCompleted();
       }
    }

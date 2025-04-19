@@ -12,8 +12,6 @@ package core.states.AIStates
    
    public class AIBoss implements IState
    {
-      public static var DT:Number = 7;
-
       private var b:Boss;
       
       private var g:Game;
@@ -122,7 +120,7 @@ package core.states.AIStates
             {
                rotationSpeedCurrent += 0.05 * b.rotationSpeed;
             }
-            b.course.rotation += rotationSpeedCurrent * DT / 1000;
+            b.course.rotation += rotationSpeedCurrent * Game.dt / 1000;
          }
          b.x = b.course.pos.x;
          b.y = b.course.pos.y;

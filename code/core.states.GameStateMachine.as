@@ -6,11 +6,10 @@ package core.states
    import flash.utils.getQualifiedClassName;
    import io.IInput;
    import io.InputLocator;
+   import core.scene.Game;
    
    public class GameStateMachine
    {
-      private var DT:Number = 7;
-
       private var previousState:IGameState;
       
       private var currentState:IGameState;
@@ -76,13 +75,13 @@ package core.states
             frameTime = 10000;
          }
          accumulator += frameTime;
-         while(accumulator >= DT)
+         while(accumulator >= Game.dt)
          {
             if(currentState != null)
             {
                currentState.tickUpdate();
             }
-            accumulator -= DT;
+            accumulator -= Game.dt;
          }
          if(currentState != null && currentState.loaded)
          {

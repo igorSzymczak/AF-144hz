@@ -11,8 +11,6 @@ package core.states.AIStates
    
    public class Missile implements IState
    {
-      private static var DT:Number = 7;
-
       private var g:Game;
       
       private var p:Projectile;
@@ -61,7 +59,7 @@ package core.states.AIStates
          {
             _loc5_.target = engine;
          }
-         var _loc1_:Number = DT;
+         var _loc1_:Number = Game.dt;
          var _loc6_:Number = (p.convergenceTime - p.convergenceCounter) / p.convergenceTime;
          if(_loc6_ <= 0)
          {
@@ -116,7 +114,7 @@ package core.states.AIStates
          }
          else
          {
-            p.course.time += DT;
+            p.course.time += Game.dt;
          }
          engine.x = p.pos.x - Math.cos(p.rotation) * p.radius;
          engine.y = p.pos.y - Math.sin(p.rotation) * p.radius;

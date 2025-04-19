@@ -1,5 +1,6 @@
 package camerafocus
 {
+   import core.scene.Game;
    import camerafocus.events.CameraFocusEvent;
    import flash.geom.Point;
    import flash.utils.Dictionary;
@@ -8,9 +9,6 @@ package camerafocus
    
    public final class StarlingCameraFocus
    {
-      private static var DT:Number = 7;
-
-      private static var bDT:Number = 33 / 7;
 
       private var _stage:Stage;
       
@@ -314,8 +312,8 @@ package camerafocus
          _targetCurrentY = focusTarget.y;
          if(isZooming)
          {
-            _stageContainer.scaleX += (_zoomFactor - _stageContainer.scaleX) / zoomStep / bDT; 
-            _stageContainer.scaleY += (_zoomFactor - _stageContainer.scaleY) / zoomStep / bDT;
+            _stageContainer.scaleX += (_zoomFactor - _stageContainer.scaleX) / zoomStep / Game.bdt; 
+            _stageContainer.scaleY += (_zoomFactor - _stageContainer.scaleY) / zoomStep / Game.bdt;
             if(Math.abs(_stageContainer.scaleX - _zoomFactor) < 0.00001)
             {
                isZooming = false;
@@ -334,7 +332,7 @@ package camerafocus
          {
             if(_shakeTimer > 0)
             {
-               _shakeTimer -= DT;
+               _shakeTimer -= Game.dt;
                if(_shakeTimer <= 0)
                {
                   _shakeTimer = 0;

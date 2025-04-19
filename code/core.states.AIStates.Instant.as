@@ -8,8 +8,6 @@ package core.states.AIStates
    
    public class Instant implements IState
    {
-      private static var DT:Number = 33;
-
       protected var g:Game;
       
       protected var p:Projectile;
@@ -121,7 +119,7 @@ package core.states.AIStates
             g.beamLinePool.removeLine(lineOuter);
             g.canvasEffects.removeChild(lineOuter);
          }
-         p.course.time += DT;
+         p.course.time += Game.dt;
       }
       
       public function exit() : void
