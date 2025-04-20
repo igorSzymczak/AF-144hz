@@ -61,7 +61,7 @@ package core.sync
       
       public function run() : void
       {
-         if(course == null || course.time > g.time - DT)
+         if(course == null || course.time >= g.time - DT)
          {
             return;
          }
@@ -186,7 +186,7 @@ package core.sync
             course.speed = target.speed;
             course.pos = target.pos;
             course.rotation = target.rotation;
-            course.time = target.time;
+            course.time += Game.dt
             aiAddError(course);
          }
       }
@@ -225,7 +225,7 @@ package core.sync
          {
             return;
          }
-         while(param1.time < g.time - 33)
+         while(param1.time < g.time - 5000)
          {
             updateHeading(param1);
          }
@@ -447,8 +447,15 @@ package core.sync
                i++;
             }
          }
-         param1.pos.x += param1.speed.x * DT * 0.001;
-         param1.pos.y += param1.speed.y * DT * 0.001;
+
+         // Zakładamy, że DT jest w milisekundach, czyli np. 33
+         var newPoint:Point = new Point();
+         newPoint.x = param1.pos.x + param1.speed.x * DT * 0.001;
+         newPoint.y = param1.pos.y + param1.speed.y * DT * 0.001;
+
+         // Interpolujemy od starej pozycji (param1.pos) do newPoint, wagą newPoint  => czyli odwrotnie niż f w GDScript
+         param1.pos = Point.interpolate(param1.pos, newPoint, Game.dt * 0.001);
+
          param1.time += dt;
       }
    }

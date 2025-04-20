@@ -273,7 +273,7 @@ package core.projectile
          {
             followingRibbonSegment.setTo2(_pos.x,_pos.y,ribbonThickness,_loc2_);
          }
-         ribbonTrail.advanceTime(Game.dt);
+         ribbonTrail.advanceTime(33);
       }
       
       public function fastforward() : void

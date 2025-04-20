@@ -40,13 +40,13 @@ package core.solarSystem
          {
             _loc3_ = body.parentBody.pos.x;
             _loc4_ = body.parentBody.pos.y;
-            _loc5_ = orbitRadius * Math.cos(orbitAngle + orbitSpeed * (Game.dt / 1000) * (param2 - param1));
-            _loc6_ = orbitRadius * Math.sin(orbitAngle + orbitSpeed * (Game.dt / 1000) * (param2 - param1));
+            _loc5_ = orbitRadius * Math.cos(orbitAngle + orbitSpeed * (33 / 1000) * (param2 - param1));
+            _loc6_ = orbitRadius * Math.sin(orbitAngle + orbitSpeed * (33 / 1000) * (param2 - param1));
             pos.x = _loc5_ + _loc3_;
             pos.y = _loc6_ + _loc4_;
          }
          angle += rotationSpeed;
-         time += Game.dt;
+         time += 33;
       }
       
       public function parseJSON(param1:Object) : void

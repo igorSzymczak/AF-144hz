@@ -1609,6 +1609,16 @@ package core.scene
          RymdenRunt.s.nativeStage.frameRate = fps;
       }
 
+      public function lerp(a:Number, b:Number, dt:Number, dtMax:Number = 100):Number
+      {
+         var t:Number = dt / dtMax;
+
+         // limit t to 0.0 - 1.0
+         if (t < 0) t = 0;
+         else if (t > 1) t = 1;
+
+         return a + (b - a) * t;
+      }
    }
 }
 
