@@ -35,6 +35,10 @@ package core.states.AIStates
       
       public function enter() : void
       {
+         if (s.name = Game.debuggedEnemyName)
+         {
+            MessageLog.write(s.name + " STARTED Boss, speed =" + Math.sqrt(Math.pow(s.course.speed.x, 2) + Math.pow(s.course.speed.y, 2)) + "px / sec");
+         }
          b.course.accelerate = true;
          nextRegen = g.time + 1000;
          courseSendTime = g.time + courseSendInterval;

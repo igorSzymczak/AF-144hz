@@ -50,7 +50,7 @@ package extensions
          mVertexData = new VertexData();
          mIndexData = new IndexData();
          mRibbonSegments = new Vector.<RibbonSegment>(0);
-         raiseCapacity(param2 * Game.bdt * 2);
+         raiseCapacity(param2 * Game.bdt);
          super(mVertexData,mIndexData);
          updatevertexData();
          style.textureRepeat = false;
@@ -223,7 +223,7 @@ package extensions
             }
             _loc5_ = _loc3_;
             _loc2_ = _loc4_ * 2;
-            _loc6_ = Math.min(0.50, _loc3_.alpha * Math.pow(Game.bdt, 2));
+            _loc6_ = Math.min(0.50, _loc3_.alpha * Game.bdt);
             setVertexPosition(_loc2_,_loc3_.x0,_loc3_.y0);
             setVertexPosition(_loc2_ + 1,_loc3_.x1,_loc3_.y1);
             if(alphaArray.length <= _loc4_)
