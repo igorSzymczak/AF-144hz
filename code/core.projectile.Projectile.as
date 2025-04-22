@@ -27,6 +27,11 @@ package core.projectile
          "Homing Missle Small"
       ];
 
+      public var mines: Array = [
+         "Mine lvl 1",
+         "Mine lvl 6"
+      ];
+
       public var determinedColor:Number = NaN;
       
       public var determinedHue:Number = NaN;
@@ -336,8 +341,10 @@ package core.projectile
             param1.speed.x -= weapon.friction * param1.speed.x + 0.009 * param1.speed.x;
             param1.speed.y -= weapon.friction * param1.speed.y + 0.009 * param1.speed.y;
          }
-         param1.pos.x += 0.001 * param1.speed.x * Game.dt;
-         param1.pos.y += 0.001 * param1.speed.y * Game.dt;
+         param1.pos.x += 0.001 * param1.speed.x * Game.dt * (mines.indexOf(name) != -1 ? Game.bdt : 1);
+         param1.pos.y += 0.001 * param1.speed.y * Game.dt * (mines.indexOf(name) != -1 ? Game.bdt : 1);
+         // param1.pos.x += 0.001 * param1.speed.x * Game.dt * (name == "Mine lvl 1" ? Game.bdt : 1);
+         // param1.pos.y += 0.001 * param1.speed.y * Game.dt * (name == "Mine lvl 1" ? Game.bdt : 1);
          param1.time += Game.dt;
       }
       
