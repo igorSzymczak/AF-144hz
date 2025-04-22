@@ -17,11 +17,16 @@ package core.projectile
    import starling.core.Starling;
    import textures.ITextureManager;
    import textures.TextureLocator;
+   import core.hud.components.chat.MessageLog;
    
    public class Projectile extends GameObject
    {
       private static const DTxDT_HALF:Number = Math.pow(Game.dt,2) * 0.5;
       
+      public var missiles: Array = [
+         "Homing Missle Small"
+      ];
+
       public var determinedColor:Number = NaN;
       
       public var determinedHue:Number = NaN;
@@ -304,6 +309,7 @@ package core.projectile
             {
                tempVx = param1.speed.x;
                tempVy = param1.speed.y;
+
                if(wave)
                {
                   _loc2_ = waveAmplitude / 3 * Math.sin(waveFrequency * (ttlMax - ttl)) * waveDirection;
@@ -312,8 +318,8 @@ package core.projectile
                }
                else
                {
-                  tempVx += Math.cos(param1.rotation) * acceleration * DTxDT_HALF;
-                  tempVy += Math.sin(param1.rotation) * acceleration * DTxDT_HALF;
+                  tempVx += Math.cos(param1.rotation) * acceleration * DTxDT_HALF * (missiles.indexOf(name) != -1 ? Game.dt : 1);
+                  tempVy += Math.sin(param1.rotation) * acceleration * DTxDT_HALF * (missiles.indexOf(name) != -1 ? Game.dt : 1);
                }
                if(tempVx * tempVx + tempVy * tempVy <= speedMax * speedMax)
                {
