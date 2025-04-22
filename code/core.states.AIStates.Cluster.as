@@ -5,6 +5,7 @@ package core.states.AIStates
    import core.scene.Game;
    import core.states.IState;
    import generics.Util;
+   import core.hud.components.chat.MessageLog;
    
    public class Cluster extends ProjectileBullet implements IState
    {
@@ -21,6 +22,7 @@ package core.states.AIStates
       {
          clusterAngle = Util.degreesToRadians(p.clusterAngle);
          super.enter();
+         MessageLog.write("used cluster missile");
       }
       
       override public function execute() : void
@@ -44,6 +46,7 @@ package core.states.AIStates
             _loc4_ = -p.clusterNrOfProjectiles;
             p.course.speed.x *= Game.bdt;
             p.course.speed.y *= Game.bdt;
+            p.speedMax *= Game.bdt;
             while(_loc4_ < p.clusterNrOfProjectiles)
             {
                _loc2_ = ProjectileFactory.create(p.clusterProjectile,m,p.unit,p.weapon);
@@ -54,6 +57,9 @@ package core.states.AIStates
                _loc2_.course.copy(p.course);
                _loc2_.course.rotation -= _loc3_;
                _loc5_ = p.course.speed.length;
+               MessageLog.write("Current speed: " + _loc2_.speedMax);
+               _loc2_.speedMax *= Game.bdt;
+               MessageLog.write("Multiplied speed: " + _loc2_.speedMax);
                _loc2_.course.speed.x = Math.cos(_loc2_.course.rotation) * _loc5_;
                _loc2_.course.speed.y = Math.sin(_loc2_.course.rotation) * _loc5_;
 

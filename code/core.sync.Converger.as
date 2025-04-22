@@ -12,6 +12,11 @@ package core.sync
    
    public class Converger
    {
+      public static var actingUpEnemies: Array = [
+         "Aureus Monachus lvl 73", 
+         "Aureus Warrior lvl 75"
+      ];
+
       public static var DT:Number = 33;
       
       public static const PI_DIVIDED_BY_8:Number = 0.39269908169872414;
@@ -259,8 +264,8 @@ package core.sync
          var distanceSq:Number = NaN;
          var directionToBody:Number = NaN;
          var gravityForce:Number = NaN;
-         var dt:Number = DT;
-         var bDT:Number = 33 / DT;
+         var dt:Number = actingUpEnemies.indexOf(ship.name) != -1 ? Game.dt : DT;
+         var bDT:Number = 33 / dt;
          if(ship is EnemyShip && angleTargetPos != null)
          {
             shipPos = ship.pos;
@@ -448,13 +453,14 @@ package core.sync
             }
          }
 
-         // Zakładamy, że DT jest w milisekundach, czyli np. 33
+         // Zakładamy, że dt jest w milisekundach, czyli np. 33
          var newPoint:Point = new Point();
-         newPoint.x = param1.pos.x + param1.speed.x * DT * 0.001;
-         newPoint.y = param1.pos.y + param1.speed.y * DT * 0.001;
+         newPoint.x = param1.pos.x + param1.speed.x * dt * 0.001;
+         newPoint.y = param1.pos.y + param1.speed.y * dt * 0.001;
 
          // Interpolujemy od starej pozycji (param1.pos) do newPoint, wagą newPoint  => czyli odwrotnie niż f w GDScript
-         param1.pos = Point.interpolate(param1.pos, newPoint, Game.dt * 0.001);
+         // param1.pos = Point.interpolate(param1.pos, newPoint, Game.dt * 0.001);
+         param1.pos = newPoint;
 
          param1.time += dt;
       }
