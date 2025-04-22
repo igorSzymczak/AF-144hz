@@ -488,7 +488,7 @@ package core.ship
          if(_loc7_.melee)
          {
             _loc7_.meleeCharge = _loc6_.charge;
-            _loc7_.meleeChargeSpeedBonus = Number(_loc6_.chargeSpeedBonus) / 100 / Game.bdt;
+            _loc7_.meleeChargeSpeedBonus = Number(_loc6_.chargeSpeedBonus) / 100;
             _loc7_.meleeChargeDuration = _loc6_.chargeDuration;
             _loc7_.meleeCanGrab = _loc6_.grab;
          }

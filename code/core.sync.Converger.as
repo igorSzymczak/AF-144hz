@@ -225,7 +225,7 @@ package core.sync
          {
             return;
          }
-         while(param1.time < g.time - 33)
+         while(param1.time < g.time - 5000)
          {
             updateHeading(param1);
          }
@@ -327,7 +327,6 @@ package core.sync
          {
             speedX = param1.speed.x;
             speedY = param1.speed.y;
-
             currentSpeedSq = speedX * speedX + speedY * speedY;
             adjustedRotation = param1.rotation + ship.rollDir * ship.rollMod * ship.rollPassive;
             acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2);
@@ -378,7 +377,6 @@ package core.sync
          {
             speedX = param1.speed.x;
             speedY = param1.speed.y;
-
             currentSpeedSq = speedX * speedX + speedY * speedY;
             if(currentSpeedSq <= ship.rollSpeed * ship.rollSpeed)
             {
@@ -450,10 +448,6 @@ package core.sync
             }
          }
 
-         // if (ship is EnemyShip) {
-         //    param1.speed.x = param1.speed.x / Game.bdt;
-         //    param1.speed.y = param1.speed.y / Game.bdt;
-         // }
          // Zakładamy, że DT jest w milisekundach, czyli np. 33
          var newPoint:Point = new Point();
          newPoint.x = param1.pos.x + param1.speed.x * DT * 0.001;

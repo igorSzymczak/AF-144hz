@@ -102,8 +102,6 @@ package core.scene
 
       public static var fps: Number = 143;
 
-      public static var debuggedEnemyName: String = "Aureus Warrior lvl 75"
-
       public static var instance:Game;
       
       private static var tracker:AnalyticsTracker;
