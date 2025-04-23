@@ -420,8 +420,8 @@ package core.boss
             }
             _loc3_ = param1.speed.x;
             _loc4_ = param1.speed.y;
-            _loc3_ += _loc13_ * (Math.cos(param1.rotation) * acceleration * 0.5 * Math.pow(_loc9_,2));
-            _loc4_ += _loc13_ * (Math.sin(param1.rotation) * acceleration * 0.5 * Math.pow(_loc9_,2));
+            _loc3_ += _loc13_ * (Math.cos(param1.rotation) * acceleration * 0.5 * Math.pow(33,2));
+            _loc4_ += _loc13_ * (Math.sin(param1.rotation) * acceleration * 0.5 * Math.pow(33,2));
             if(_loc3_ * _loc3_ + _loc4_ * _loc4_ <= speed * speed)
             {
                param1.speed.x = _loc3_;
@@ -438,9 +438,9 @@ package core.boss
          }
          param1.speed.x -= 0.009 * param1.speed.x;
          param1.speed.y -= 0.009 * param1.speed.y;
-         param1.pos.x += param1.speed.x * _loc9_ / 1000;
-         param1.pos.y += param1.speed.y * _loc9_ / 1000;
-         param1.time += _loc9_;
+         param1.pos.x += param1.speed.x * Game.dt / 1000;
+         param1.pos.y += param1.speed.y * Game.dt / 1000;
+         param1.time += Game.dt;
          if(holonomic || rotationForced)
          {
             course.rotation = oldAngle;
