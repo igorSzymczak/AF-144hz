@@ -1127,11 +1127,10 @@ package core.scene
          removeEventListener("enterFrame",update);
       }
       
-      private function reload() : void
+      public function reload() : void
       {
          var roomId:String;
          var joinRoomManager:JoinRoomManager;
-         var localMe:Player;
          var solarsystem:String;
          Login.fadeScreen.show();
          roomId = this.roomId;
@@ -1141,12 +1140,11 @@ package core.scene
             joinRoomManager.joinCurrentSolarSystem();
             return;
          }
-         localMe = me;
          solarsystem = this.solarSystem.key;
          if(serviceConnection && serviceConnection.connected)
          {
             joinRoomManager.desiredRoomId = roomId;
-            joinRoomManager.joinGame(solarsystem,{"level":localMe.level});
+            joinRoomManager.joinGame(solarsystem,{"level":me.level});
          }
          else
          {
@@ -1155,7 +1153,7 @@ package core.scene
             {
                joinRoomManager.removeEventListeners("joinedServiceRoom");
                joinRoomManager.desiredRoomId = roomId;
-               joinRoomManager.joinGame(solarsystem,{"level":localMe.level});
+               joinRoomManager.joinGame(solarsystem,{"level":me.level});
             });
          }
       }

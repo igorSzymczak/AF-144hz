@@ -361,6 +361,14 @@ package core.hud.components.chat
             case "next":
                Playlist.next();
                break;
+            case "ref":
+            case "refresh":
+            case "reload":
+               Starling.juggler.delayCall(function():void
+               {
+                  g.reload();
+               },0.2);
+               break;
             default:
                MessageLog.write("invalid command, type /help for valid commands");
          }

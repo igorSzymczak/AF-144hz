@@ -319,15 +319,15 @@ package core.sync
          }
          else 
          {
-            // Obliczanie obrotu gracza
+            // Calculating player position
             if(param1.rotateLeft)
             {
-               param1.rotation -= 0.001 * ship.engine.rotationSpeed * dt;
+               param1.rotation -= 0.001 * ship.engine.rotationSpeed * dt * 0.95;
                param1.rotation = Util.clampRadians(param1.rotation);
             }
             if(param1.rotateRight)
             {
-               param1.rotation += 0.001 * ship.engine.rotationSpeed * dt;
+               param1.rotation += 0.001 * ship.engine.rotationSpeed * dt * 0.95;
                param1.rotation = Util.clampRadians(param1.rotation);
             }
          }
