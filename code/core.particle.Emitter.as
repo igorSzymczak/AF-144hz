@@ -145,6 +145,8 @@ package core.particle
       private var _finishColor:uint = 0;
       
       private var _originalFinishColor:uint = 0;
+
+      public var forceFixedEmission: Boolean = false;
       
       public function Emitter(param1:Game)
       {
@@ -362,7 +364,7 @@ package core.particle
          var _loc4_:int = 0;
          var _loc5_:int = 0;
          var _loc2_:int = 0;
-         var _loc1_:int = Game.dt;
+         var _loc1_:int = forceFixedEmission ? 33 : Game.dt;
          if(!constantEmitter || steadyStream)
          {
             emittAccum += ppms * _loc1_;

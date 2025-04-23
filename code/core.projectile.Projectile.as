@@ -360,7 +360,7 @@ package core.projectile
                if(dmgRadius > 25 || unit != null && unit.nextHitEffectReady < g.time && Game.highSettings)
                {
                   unit.nextHitEffectReady = g.time + 50;
-                  _loc3_ = EmitterFactory.create(explosionEffect,g,pos.x,pos.y,param2,true);
+                  _loc3_ = EmitterFactory.create(explosionEffect,g,pos.x,pos.y,param2,true,true,true,null,true);
                   if(!isNaN(determinedColor) && !isNaN(determinedHue))
                   {
                      for each(var e in _loc3_)
