@@ -12,6 +12,15 @@ package core.sync
    
    public class Converger
    {
+      public static var actingUpEnemies: Array = [
+         "Aureus Monachus lvl 73", 
+         "Aureus Warrior lvl 75",
+         "Aureus Sidus Shard 88",
+         "Aureus Sidus Shard 80"
+      ];
+
+      public static var DT:Number = 7;
+      
       public static const PI_DIVIDED_BY_8:Number = 0.39269908169872414;
       
       private const BLIP_OFFSET:Number = 30;
@@ -45,6 +54,8 @@ package core.sync
       private const LEFT:int = -1;
       
       private const NONE:int = 0;
+
+      private var playerRotTime = 0;
       
       public function Converger(param1:Ship, param2:Game)
       {
@@ -59,7 +70,13 @@ package core.sync
       
       public function run() : void
       {
-         if(course == null || course.time > g.time - 33)
+
+         if(ship is PlayerShip && playerRotTime < g.time - 33)
+         {
+            updatePlayerRotation(course);
+         }
+
+         if(course == null || course.time >= g.time - DT)
          {
             return;
          }
@@ -184,7 +201,7 @@ package core.sync
             course.speed = target.speed;
             course.pos = target.pos;
             course.rotation = target.rotation;
-            course.time = target.time;
+            course.time += Game.dt
             aiAddError(course);
          }
       }
@@ -223,179 +240,185 @@ package core.sync
          {
             return;
          }
-         while(param1.time < g.time - 33)
+         while(param1.time < g.time - DT)
          {
             updateHeading(param1);
          }
       }
       
+      public function updatePlayerRotation(param1: Heading) : void
+      {
+         if (playerRotTime == 0) {
+            playerRotTime = g.time - 33;
+         }
+         var originalStep: Number = ship.engine.rotationSpeed * 33 * 0.001;
+         if(param1.rotateLeft)
+         {
+            param1.rotation -= originalStep;
+            param1.rotation = Util.clampRadians(param1.rotation);
+         }
+         if(param1.rotateRight)
+         {
+            param1.rotation += originalStep;
+            param1.rotation = Util.clampRadians(param1.rotation);
+         }
+         playerRotTime += 33;
+      }
+
       public function updateHeading(param1:Heading) : void
       {
-         var _loc13_:Point = null;
-         var _loc20_:Number = NaN;
-         var _loc12_:Number = NaN;
-         var _loc26_:Number = NaN;
-         var _loc27_:Number = NaN;
-         var _loc11_:Boolean = false;
-         var _loc19_:Number = NaN;
-         var _loc25_:EnemyShip = null;
-         var _loc3_:Number = NaN;
-         var _loc4_:Number = NaN;
-         var _loc23_:Number = NaN;
-         var _loc14_:Number = NaN;
-         var _loc18_:Number = NaN;
-         var _loc24_:Number = NaN;
-         var _loc21_:Number = NaN;
-         var _loc9_:Number = NaN;
+         var shipPos:Point = null;
+         var shipRot:Number = NaN;
+         var angleToTarget:Number = NaN;
+         var angleDiff:Number = NaN;
+         var rotationStep:Number = NaN;
+         var shouldReverse:Boolean = false;
+         var distanceToTarget:Number = NaN;
+         var enemyShip:EnemyShip = null;
+         var speedX:Number = NaN;
+         var speedY:Number = NaN;
+         var currentSpeedSq:Number = NaN;
+         var adjustedRotation:Number = NaN;
+         var acceleration:Number = NaN;
+         var maxSpeed:Number = NaN;
+         var normX:Number = NaN;
+         var normY:Number = NaN;
          var _loc8_:Number = NaN;
-         var _loc6_:* = undefined;
-         var _loc15_:int = 0;
-         var _loc22_:int = 0;
-         var _loc17_:Body = null;
-         var _loc2_:Number = NaN;
-         var _loc7_:Number = NaN;
-         var _loc5_:Number = NaN;
-         var _loc16_:Number = NaN;
-         var _loc28_:Number = NaN;
-         var _loc10_:Number = 33;
-         if(ship is EnemyShip)
-         {
-         }
+         var allBodies:* = undefined;
+         var numBodies:int = 0;
+         var i:int = 0;
+         var body:Body = null;
+         var dx:Number = NaN;
+         var dy:Number = NaN;
+         var distanceSq:Number = NaN;
+         var directionToBody:Number = NaN;
+         var gravityForce:Number = NaN;
+         // var dt:Number = actingUpEnemies.indexOf(ship.name) != -1 ? Game.dt : DT;
+         var dt:Number = Game.dt;
+         var bdt:Number = 33 / dt;
+
          if(ship is EnemyShip && angleTargetPos != null)
          {
-            _loc13_ = ship.pos;
-            _loc20_ = ship.rotation;
-            _loc12_ = Math.atan2(angleTargetPos.y - _loc13_.y,angleTargetPos.x - _loc13_.x);
-            _loc26_ = Util.angleDifference(_loc20_,_loc12_ + 3.141592653589793);
-            _loc27_ = 0.001 * ship.engine.rotationSpeed * _loc10_;
-            _loc11_ = _loc26_ > 0.5 * 3.141592653589793 || _loc26_ < -0.5 * 3.141592653589793;
-            _loc19_ = (angleTargetPos.y - _loc13_.y) * (angleTargetPos.y - _loc13_.y) + (angleTargetPos.x - _loc13_.x) * (angleTargetPos.x - _loc13_.x);
-            _loc25_ = ship as EnemyShip;
-            if(_loc19_ < 2500 && _loc25_.meleeCharge)
+            shipPos = ship.pos;
+            shipRot = ship.rotation;
+            angleToTarget = Math.atan2(angleTargetPos.y - shipPos.y,angleTargetPos.x - shipPos.x);
+            angleDiff = Util.angleDifference(shipRot,angleToTarget + 3.141592653589793);
+            rotationStep = 0.001 * ship.engine.rotationSpeed * 33;
+            shouldReverse = angleDiff > 0.5 * 3.141592653589793 || angleDiff < -0.5 * 3.141592653589793;
+            distanceToTarget = (angleTargetPos.y - shipPos.y) * (angleTargetPos.y - shipPos.y) + (angleTargetPos.x - shipPos.x) * (angleTargetPos.x - shipPos.x);
+            enemyShip = ship as EnemyShip;
+            if(distanceToTarget < 2500 && enemyShip.meleeCharge)
             {
                isFacingTarget = false;
             }
-            else if(!_loc11_)
+            else if(!shouldReverse)
             {
                param1.accelerate = true;
                param1.roll = false;
-               if(_loc26_ > 0 && _loc26_ < 3.141592653589793 - _loc27_)
+               if(angleDiff > 0 && angleDiff < 3.141592653589793 - rotationStep)
                {
-                  param1.rotation += _loc27_;
+                  param1.rotation += rotationStep;
                   param1.rotation = Util.clampRadians(param1.rotation);
                   isFacingTarget = false;
                }
-               else if(_loc26_ <= 0 && _loc26_ > -3.141592653589793 + _loc27_)
+               else if(angleDiff <= 0 && angleDiff > -3.141592653589793 + rotationStep)
                {
-                  param1.rotation -= _loc27_;
+                  param1.rotation -= rotationStep;
                   param1.rotation = Util.clampRadians(param1.rotation);
                   isFacingTarget = false;
                }
             }
-            else if(_loc26_ > 0 && _loc26_ < 3.141592653589793 - _loc27_)
+            else if(angleDiff > 0 && angleDiff < 3.141592653589793 - rotationStep)
             {
-               param1.rotation += _loc27_;
+               param1.rotation += rotationStep;
                param1.rotation = Util.clampRadians(param1.rotation);
                isFacingTarget = false;
             }
-            else if(_loc26_ <= 0 && _loc26_ > -3.141592653589793 + _loc27_)
+            else if(angleDiff <= 0 && angleDiff > -3.141592653589793 + rotationStep)
             {
-               param1.rotation -= _loc27_;
+               param1.rotation -= rotationStep;
                param1.rotation = Util.clampRadians(param1.rotation);
                isFacingTarget = false;
             }
             else
             {
                isFacingTarget = true;
-               param1.rotation = Util.clampRadians(_loc12_);
-            }
-         }
-         else
-         {
-            if(param1.rotateLeft)
-            {
-               param1.rotation -= 0.001 * ship.engine.rotationSpeed * _loc10_;
-               param1.rotation = Util.clampRadians(param1.rotation);
-            }
-            if(param1.rotateRight)
-            {
-               param1.rotation += 0.001 * ship.engine.rotationSpeed * _loc10_;
-               param1.rotation = Util.clampRadians(param1.rotation);
+               param1.rotation = Util.clampRadians(angleToTarget);
             }
          }
          if(param1.accelerate)
          {
-            _loc3_ = param1.speed.x;
-            _loc4_ = param1.speed.y;
-            _loc23_ = _loc3_ * _loc3_ + _loc4_ * _loc4_;
-            _loc14_ = param1.rotation + ship.rollDir * ship.rollMod * ship.rollPassive;
-            _loc18_ = ship.engine.acceleration * 0.5 * Math.pow(_loc10_,2);
+            speedX = param1.speed.x;
+            speedY = param1.speed.y;
+            currentSpeedSq = speedX * speedX + speedY * speedY;
+            adjustedRotation = param1.rotation + ship.rollDir * ship.rollMod * ship.rollPassive;
+            acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2) * bdt;
             if(ship is EnemyShip)
             {
-               _loc3_ += Math.cos(_loc14_) * _loc18_;
-               _loc4_ += Math.sin(_loc14_) * _loc18_;
+               speedX += Math.cos(adjustedRotation) * acceleration;
+               speedY += Math.sin(adjustedRotation) * acceleration;
             }
             else
             {
-               _loc3_ += Math.cos(param1.rotation) * _loc18_;
-               _loc4_ += Math.sin(param1.rotation) * _loc18_;
+               speedX += Math.cos(param1.rotation) * acceleration;
+               speedY += Math.sin(param1.rotation) * acceleration;
             }
-            _loc24_ = ship.engine.speed;
+            maxSpeed = ship.engine.speed;
             if(ship.usingBoost)
             {
-               _loc24_ = 0.01 * _loc24_ * (100 + ship.boostBonus);
+               maxSpeed = 0.01 * maxSpeed * (100 + ship.boostBonus);
             }
-            else if(_loc23_ > _loc24_ * _loc24_)
+            else if(currentSpeedSq > maxSpeed * maxSpeed)
             {
-               _loc24_ = Math.sqrt(_loc23_);
+               maxSpeed = Math.sqrt(currentSpeedSq);
             }
             if(ship.slowDownEndtime > g.time)
             {
-               _loc24_ = ship.engine.speed * (1 - ship.slowDown);
+               maxSpeed = ship.engine.speed * (1 - ship.slowDown);
             }
-            _loc23_ = _loc3_ * _loc3_ + _loc4_ * _loc4_;
-            if(_loc23_ <= _loc24_ * _loc24_)
+            currentSpeedSq = speedX * speedX + speedY * speedY;
+            if(currentSpeedSq <= maxSpeed * maxSpeed)
             {
-               param1.speed.x = _loc3_;
-               param1.speed.y = _loc4_;
+               param1.speed.x = speedX;
+               param1.speed.y = speedY;
             }
             else
             {
-               _loc21_ = Math.sqrt(_loc23_);
-               _loc9_ = _loc3_ / _loc21_ * _loc24_;
-               _loc8_ = _loc4_ / _loc21_ * _loc24_;
-               param1.speed.x = _loc9_;
+               normX = Math.sqrt(currentSpeedSq);
+               normY = speedX / normX * maxSpeed;
+               _loc8_ = speedY / normX * maxSpeed;
+               param1.speed.x = normY;
                param1.speed.y = _loc8_;
             }
          }
          else if(param1.deaccelerate)
          {
-            param1.speed.x = 0.9 * param1.speed.x;
-            param1.speed.y = 0.9 * param1.speed.y;
+            param1.speed.x -= 0.1 * param1.speed.x / bdt;
+            param1.speed.y -= 0.1 * param1.speed.y / bdt;
          }
          else if(ship is EnemyShip && param1.roll)
          {
-            _loc3_ = param1.speed.x;
-            _loc4_ = param1.speed.y;
-            _loc23_ = _loc3_ * _loc3_ + _loc4_ * _loc4_;
-            if(_loc23_ <= ship.rollSpeed * ship.rollSpeed)
+            speedX = param1.speed.x;
+            speedY = param1.speed.y;
+            currentSpeedSq = speedX * speedX + speedY * speedY;
+            if(currentSpeedSq <= ship.rollSpeed * ship.rollSpeed)
             {
-               _loc14_ = param1.rotation + ship.rollDir * ship.rollMod * 3.141592653589793 * 0.5;
-               _loc18_ = ship.engine.acceleration * 0.5 * Math.pow(_loc10_,2);
-               _loc3_ += Math.cos(_loc14_) * _loc18_;
-               _loc4_ += Math.sin(_loc14_) * _loc18_;
-               _loc23_ = _loc3_ * _loc3_ + _loc4_ * _loc4_;
-               if(_loc23_ <= ship.rollSpeed * ship.rollSpeed)
+               adjustedRotation = param1.rotation + ship.rollDir * ship.rollMod * 3.141592653589793 * 0.5;
+               acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2) * bdt;
+               speedX += Math.cos(adjustedRotation) * acceleration;
+               speedY += Math.sin(adjustedRotation) * acceleration;
+               currentSpeedSq = speedX * speedX + speedY * speedY;
+               if(currentSpeedSq <= ship.rollSpeed * ship.rollSpeed)
                {
-                  param1.speed.x = _loc3_;
-                  param1.speed.y = _loc4_;
+                  param1.speed.x = speedX;
+                  param1.speed.y = speedY;
                }
                else
                {
-                  _loc21_ = Math.sqrt(_loc23_);
-                  _loc9_ = _loc3_ / _loc21_ * ship.rollSpeed;
-                  _loc8_ = _loc4_ / _loc21_ * ship.rollSpeed;
-                  param1.speed.x = _loc9_;
+                  normX = Math.sqrt(currentSpeedSq);
+                  normY = speedX / normX * ship.rollSpeed;
+                  _loc8_ = speedY / normX * ship.rollSpeed;
+                  param1.speed.x = normY;
                   param1.speed.y = _loc8_;
                }
             }
@@ -412,44 +435,49 @@ package core.sync
          }
          else
          {
-            param1.speed.x -= 0.009 * param1.speed.x;
-            param1.speed.y -= 0.009 * param1.speed.y;
+            param1.speed.x -= 0.009 * param1.speed.x / bdt;
+            param1.speed.y -= 0.009 * param1.speed.y / bdt;
          }
          if(ship is PlayerShip)
          {
-            _loc6_ = g.bodyManager.bodies;
-            _loc15_ = int(_loc6_.length);
-            _loc22_ = 0;
-            while(_loc22_ < _loc15_)
+            allBodies = g.bodyManager.bodies;
+            numBodies = int(allBodies.length);
+            i = 0;
+            while(i < numBodies)
             {
-               _loc17_ = _loc6_[_loc22_];
-               if(_loc17_.type == "sun")
+               body = allBodies[i];
+               if(body.type == "sun")
                {
-                  _loc2_ = _loc17_.pos.x - param1.pos.x;
-                  _loc7_ = _loc17_.pos.y - param1.pos.y;
-                  _loc5_ = _loc2_ * _loc2_ + _loc7_ * _loc7_;
-                  if(_loc5_ <= _loc17_.gravityDistance)
+                  dx = body.pos.x - param1.pos.x;
+                  dy = body.pos.y - param1.pos.y;
+                  distanceSq = dx * dx + dy * dy;
+                  if(distanceSq <= body.gravityDistance)
                   {
-                     if(_loc5_ != 0)
+                     if(distanceSq != 0)
                      {
-                        if(_loc5_ < _loc17_.gravityMin)
+                        if(distanceSq < body.gravityMin)
                         {
-                           _loc5_ = _loc17_.gravityMin;
+                           distanceSq = body.gravityMin;
                         }
-                        _loc16_ = Math.atan2(_loc7_,_loc2_);
-                        _loc16_ = Util.clampRadians(_loc16_);
-                        _loc28_ = _loc17_.gravityForce / _loc5_ * _loc10_ * 0.001;
-                        param1.speed.x += Math.cos(_loc16_) * _loc28_;
-                        param1.speed.y += Math.sin(_loc16_) * _loc28_;
+                        directionToBody = Math.atan2(dy,dx);
+                        directionToBody = Util.clampRadians(directionToBody);
+                        gravityForce = body.gravityForce / distanceSq * dt * 0.001;
+                        param1.speed.x += Math.cos(directionToBody) * gravityForce;
+                        param1.speed.y += Math.sin(directionToBody) * gravityForce;
                      }
                   }
                }
-               _loc22_++;
+               i++;
             }
          }
-         param1.pos.x += param1.speed.x * _loc10_ * 0.001;
-         param1.pos.y += param1.speed.y * _loc10_ * 0.001;
-         param1.time += _loc10_;
+
+         var newPoint:Point = new Point();
+         newPoint.x = param1.pos.x + param1.speed.x * dt * 0.001;
+         newPoint.y = param1.pos.y + param1.speed.y * dt * 0.001;
+
+         param1.pos = Point.interpolate(param1.pos, newPoint, dt * 0.001);
+
+         param1.time += dt;
       }
    }
 }

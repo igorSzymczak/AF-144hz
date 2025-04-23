@@ -266,8 +266,8 @@ package core.sync
          var distanceSq:Number = NaN;
          var directionToBody:Number = NaN;
          var gravityForce:Number = NaN;
-         var dt:Number = actingUpEnemies.indexOf(ship.name) != -1 ? Game.dt : DT;
-         var bDT:Number = 33 / dt;
+         var dt:Number = Game.dt;
+         var bdt:Number = 33 / dt;
          if(ship is EnemyShip && angleTargetPos != null)
          {
             shipPos = ship.pos;
@@ -317,8 +317,9 @@ package core.sync
                param1.rotation = Util.clampRadians(angleToTarget);
             }
          }
-         else
+         else 
          {
+            // Obliczanie obrotu gracza
             if(param1.rotateLeft)
             {
                param1.rotation -= 0.001 * ship.engine.rotationSpeed * dt;
@@ -336,7 +337,7 @@ package core.sync
             speedY = param1.speed.y;
             currentSpeedSq = speedX * speedX + speedY * speedY;
             adjustedRotation = param1.rotation + ship.rollDir * ship.rollMod * ship.rollPassive;
-            acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2);
+            acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2) * bdt;
             if(ship is EnemyShip)
             {
                speedX += Math.cos(adjustedRotation) * acceleration;
@@ -377,8 +378,8 @@ package core.sync
          }
          else if(param1.deaccelerate)
          {
-            param1.speed.x = 0.9 * param1.speed.x;
-            param1.speed.y = 0.9 * param1.speed.y;
+            param1.speed.x -= 0.1 * param1.speed.x / bdt;
+            param1.speed.y -= 0.1 * param1.speed.y / bdt;
          }
          else if(ship is EnemyShip && param1.roll)
          {
@@ -388,7 +389,7 @@ package core.sync
             if(currentSpeedSq <= ship.rollSpeed * ship.rollSpeed)
             {
                adjustedRotation = param1.rotation + ship.rollDir * ship.rollMod * 3.141592653589793 * 0.5;
-               acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2);
+               acceleration = ship.engine.acceleration * 0.5 * Math.pow(dt,2) * bdt;
                speedX += Math.cos(adjustedRotation) * acceleration;
                speedY += Math.sin(adjustedRotation) * acceleration;
                currentSpeedSq = speedX * speedX + speedY * speedY;
@@ -419,8 +420,8 @@ package core.sync
          }
          else
          {
-            param1.speed.x -= 0.009 * param1.speed.x;
-            param1.speed.y -= 0.009 * param1.speed.y;
+            param1.speed.x -= 0.009 * param1.speed.x / bdt;
+            param1.speed.y -= 0.009 * param1.speed.y / bdt;
          }
          if(ship is PlayerShip)
          {
@@ -455,14 +456,11 @@ package core.sync
             }
          }
 
-         // Zakładamy, że dt jest w milisekundach, czyli np. 33
          var newPoint:Point = new Point();
          newPoint.x = param1.pos.x + param1.speed.x * dt * 0.001;
          newPoint.y = param1.pos.y + param1.speed.y * dt * 0.001;
 
-         // Interpolujemy od starej pozycji (param1.pos) do newPoint, wagą newPoint  => czyli odwrotnie niż f w GDScript
-         // param1.pos = Point.interpolate(param1.pos, newPoint, Game.dt * 0.001);
-         param1.pos = newPoint;
+         param1.pos = Point.interpolate(param1.pos, newPoint, dt * 0.001);
 
          param1.time += dt;
       }
