@@ -14,7 +14,9 @@ package core.sync
    {
       public static var actingUpEnemies: Array = [
          "Aureus Monachus lvl 73", 
-         "Aureus Warrior lvl 75"
+         "Aureus Warrior lvl 75",
+         "Aureus Sidus Shard 88",
+         "Aureus Sidus Shard 80"
       ];
 
       public static var DT:Number = 33;
