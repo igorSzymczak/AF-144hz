@@ -96,11 +96,11 @@ package core.scene
    
    public class Game extends SceneBase
    {
-      public static var dt: Number = 7;
+      public static var dt: Number = 4.1666666666667;
 
-      public static var bdt: Number = 4.714285714285714;
+      public static var bdt: Number = 7.272727272727273;
 
-      public static var fps: Number = 143;
+      public static var fps: Number = 240;
 
       public static var instance:Game;
       
@@ -1605,17 +1605,6 @@ package core.scene
          dt = 1 / fps * 1000;
          bdt = 33 / dt
          RymdenRunt.s.nativeStage.frameRate = fps;
-      }
-
-      public function lerp(a:Number, b:Number, dt:Number, dtMax:Number = 100):Number
-      {
-         var t:Number = dt / dtMax;
-
-         // limit t to 0.0 - 1.0
-         if (t < 0) t = 0;
-         else if (t > 1) t = 1;
-
-         return a + (b - a) * t;
       }
    }
 }
