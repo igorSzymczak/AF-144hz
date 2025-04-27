@@ -12,13 +12,6 @@ package core.sync
    
    public class Converger
    {
-      public static var actingUpEnemies: Array = [
-         "Aureus Monachus lvl 73", 
-         "Aureus Warrior lvl 75",
-         "Aureus Sidus Shard 88",
-         "Aureus Sidus Shard 80"
-      ];
-
       public static var DT:Number = 33;
       
       public static const PI_DIVIDED_BY_8:Number = 0.39269908169872414;
