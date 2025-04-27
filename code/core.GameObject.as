@@ -55,6 +55,25 @@ package core
       
       public var textureWidth:int = 0;
       
+      private var enemiesRotatingTooFast: Array = [
+         "Vicious Blade lvl 12", // 2.07
+         "Vicious Blade lvl 29", // 2.07
+
+         "Enemy Thorn Blade 2 lvl 12", // 2.07
+         "Enemy Thorn Blade 2 lvl 29", // 2.07
+         "Enemy Thorn Blade lvl 8", // 2.07
+         "Thorn Blade lvl 8", // 2.07
+
+         "Aureus Sidus lvl 90", // 2.07
+         "Aureus Sidus lvl 82" // 2.07
+      ];
+
+      private var enemiesRotatingExtremelyTooFast: Array = [
+         "Sax lvl 8", // 5.91
+         "Enemy Sax lvl 8", // 5.91
+      ];
+
+
       public function GameObject()
       {
          super();
@@ -231,8 +250,18 @@ package core
       {
          if(forcedRotation)
          {
-            forcedRotationAngle += forcedRotationSpeed / Game.bdt;
-            _rotation = forcedRotationAngle;
+               if (_name != null && enemiesRotatingExtremelyTooFast.indexOf(_name) != -1) {
+                  forcedRotationAngle += forcedRotationSpeed / Game.bdt / Game.bdt / Game.bdt;
+                  _rotation = forcedRotationAngle;
+               }
+               else if (_name != null && enemiesRotatingTooFast.indexOf(_name) != -1) {
+                  forcedRotationAngle += forcedRotationSpeed / Game.bdt / Game.bdt;
+                  _rotation = forcedRotationAngle;
+               }
+               else {
+                  forcedRotationAngle += forcedRotationSpeed / Game.bdt;
+                  _rotation = forcedRotationAngle;
+               }
          }
       }
       

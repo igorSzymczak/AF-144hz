@@ -90,52 +90,52 @@ package core.sync
       
       public function calculateOffset() : void
       {
-         var _loc6_:Number = NaN;
-         var _loc8_:Number = NaN;
-         var _loc10_:* = undefined;
-         var _loc11_:int = 0;
-         var _loc7_:int = 0;
-         var _loc4_:DeathLine = null;
+         var targetX:Number = NaN;
+         var targetY:Number = NaN;
+         var deathLines:* = undefined;
+         var amountOfDeathLines:int = 0;
+         var i:int = 0;
+         var deathLine:DeathLine = null;
          while(target.time < course.time)
          {
-            _loc6_ = target.pos.y;
-            _loc8_ = target.pos.x;
+            targetX = target.pos.x;
+            targetY = target.pos.y;
             updateHeading(target);
-            _loc10_ = g.deathLineManager.lines;
-            _loc11_ = int(_loc10_.length);
-            _loc7_ = 0;
-            while(_loc7_ < _loc11_)
+            deathLines = g.deathLineManager.lines;
+            amountOfDeathLines = int(deathLines.length);
+            i = 0;
+            while(i < amountOfDeathLines)
             {
-               _loc4_ = _loc10_[_loc7_];
-               if(_loc4_.lineIntersection2(course.pos.x,course.pos.y,_loc8_,_loc6_,ship.collisionRadius))
+               deathLine = deathLines[i];
+               if(deathLine.lineIntersection2(course.pos.x,course.pos.y,targetX,targetY,ship.collisionRadius))
                {
-                  target.pos.x = _loc8_;
-                  target.pos.y = _loc6_;
+                  target.pos.x = targetX;
+                  target.pos.y = targetY;
                   target.speed.x = 0;
                   target.speed.y = 0;
                   break;
                }
-               _loc7_++;
+               i++;
             }
          }
-         var _loc1_:Number = target.pos.x - course.pos.x;
-         var _loc5_:Number = target.pos.y - course.pos.y;
-         var _loc2_:Number = Math.sqrt(_loc1_ * _loc1_ + _loc5_ * _loc5_);
-         var _loc3_:Number = Util.angleDifference(target.rotation,course.rotation);
-         if(_loc2_ > 30)
+         var dx:Number = target.pos.x - course.pos.x;
+         var dy:Number = target.pos.y - course.pos.y;
+         var distance:Number = Math.sqrt(dx * dx + dy * dy);
+         var angle_diff:Number = Util.angleDifference(target.rotation,course.rotation);
+         if(distance > 30)
          {
             setCourse(target);
             return;
          }
-         if(_loc3_ > 0.39269908169872414 || _loc3_ < -0.39269908169872414)
+         if(angle_diff > 0.39269908169872414 || angle_diff < -0.39269908169872414)
          {
             course.rotation = target.rotation;
             return;
          }
-         var _loc9_:Number = 0.4;
-         course.speed.x = target.speed.x + _loc9_ * _loc1_;
-         course.speed.y = target.speed.y + _loc9_ * _loc5_;
-         course.rotation += _loc3_ * 0.05;
+         var offsetFactor:Number = 0.4;
+         course.speed.x = target.speed.x + offsetFactor * dx * Game.bdt;
+         course.speed.y = target.speed.y + offsetFactor * dy * Game.bdt;
+         course.rotation += angle_diff * 0.2;
          course.rotation = Util.clampRadians(course.rotation);
       }
       
@@ -232,7 +232,7 @@ package core.sync
          {
             return;
          }
-         while(param1.time < g.time - 5000)
+         while(param1.time < g.time - 33)
          {
             updateHeading(param1);
          }
