@@ -5,7 +5,6 @@ package core.states.AIStates
    import core.scene.Game;
    import core.states.IState;
    import generics.Util;
-   import core.hud.components.chat.MessageLog;
    
    public class Cluster extends ProjectileBullet implements IState
    {
@@ -36,14 +35,13 @@ package core.states.AIStates
             _loc3_ = clusterAngle;
             if(p.clusterNrOfProjectiles > 1)
             {
-               _loc3_ = Math.floor(p.clusterNrOfProjectiles) * clusterAngle;
+               _loc3_ = Math.floor(p.clusterNrOfProjectiles / 2) * clusterAngle;
                if(p.clusterNrOfProjectiles % 2 == 0)
                {
                   _loc3_ -= clusterAngle / 2;
                }
             }
-            _loc4_ = -p.clusterNrOfProjectiles;
-            p.speedMax *= Game.bdt;
+            _loc4_ = 0;
             while(_loc4_ < p.clusterNrOfProjectiles)
             {
                _loc2_ = ProjectileFactory.create(p.clusterProjectile,m,p.unit,p.weapon);
@@ -54,10 +52,8 @@ package core.states.AIStates
                _loc2_.course.copy(p.course);
                _loc2_.course.rotation -= _loc3_;
                _loc5_ = p.course.speed.length;
-               _loc2_.speedMax *= Game.bdt;
                _loc2_.course.speed.x = Math.cos(_loc2_.course.rotation) * _loc5_;
                _loc2_.course.speed.y = Math.sin(_loc2_.course.rotation) * _loc5_;
-
                _loc2_.clusterNrOfSplits = p.clusterNrOfSplits - 1;
                m.projectileManager.activateProjectile(_loc2_);
                if(p.clusterNrOfProjectiles > 4)
