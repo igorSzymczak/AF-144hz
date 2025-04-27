@@ -12,7 +12,7 @@ package core.sync
    
    public class Converger
    {
-      public static var DT:Number = 33;
+      public static var DT:Number = Game.dt;
       
       public static const PI_DIVIDED_BY_8:Number = 0.39269908169872414;
       
