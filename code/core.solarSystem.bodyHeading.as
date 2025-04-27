@@ -45,7 +45,7 @@ package core.solarSystem
             pos.x = _loc5_ + _loc3_;
             pos.y = _loc6_ + _loc4_;
          }
-         angle += rotationSpeed;
+         angle += rotationSpeed / Game.bdt;
          time += 33;
       }
       
