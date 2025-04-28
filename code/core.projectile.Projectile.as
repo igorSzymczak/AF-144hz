@@ -242,9 +242,26 @@ package core.projectile
             draw();
             hasDoneFirstUpdate = true;
          }
+
+         fadeOut();
+
          super.update();
       }
       
+      private function fadeOut(): void
+      {
+         var maxFadeTimeMS : Number = 100
+         var fadeFactor:Number = Math.min(ttl / Math.min(ttlMax / 4.0, maxFadeTimeMS), 1.0);
+
+         if (fadeFactor == 1.0) {
+            return;
+         }
+
+         movieClip.alpha = fadeFactor;
+         movieClip.scaleX = fadeFactor;
+         movieClip.scaleY = fadeFactor;
+      }
+
       private function updateRibbonTrail() : void
       {
          var _loc5_:Number = NaN;
@@ -343,8 +360,6 @@ package core.projectile
          }
          param1.pos.x += 0.001 * param1.speed.x * Game.dt * (mines.indexOf(name) != -1 ? Game.bdt : 1);
          param1.pos.y += 0.001 * param1.speed.y * Game.dt * (mines.indexOf(name) != -1 ? Game.bdt : 1);
-         // param1.pos.x += 0.001 * param1.speed.x * Game.dt * (name == "Mine lvl 1" ? Game.bdt : 1);
-         // param1.pos.y += 0.001 * param1.speed.y * Game.dt * (name == "Mine lvl 1" ? Game.bdt : 1);
          param1.time += Game.dt;
       }
       

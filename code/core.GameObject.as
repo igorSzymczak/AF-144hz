@@ -251,11 +251,11 @@ package core
          if(forcedRotation)
          {
                if (_name != null && enemiesRotatingExtremelyTooFast.indexOf(_name) != -1) {
-                  forcedRotationAngle += forcedRotationSpeed / Game.bdt / Game.bdt / Game.bdt;
+                  forcedRotationAngle += 0.200 / Game.bdt;
                   _rotation = forcedRotationAngle;
                }
                else if (_name != null && enemiesRotatingTooFast.indexOf(_name) != -1) {
-                  forcedRotationAngle += forcedRotationSpeed / Game.bdt / Game.bdt;
+                  forcedRotationAngle += 0.1 / Game.bdt;
                   _rotation = forcedRotationAngle;
                }
                else {
